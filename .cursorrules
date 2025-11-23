@@ -1,0 +1,174 @@
+##Bot Backend
+
+Language: Python 3.10+
+
+Execution Model: Single-process bot triggered manually or via Slack events
+
+Core Responsibilities:
+
+    Load mock threat data
+
+    Apply rule-based triage logic
+
+    Generate formatted alert drafts
+
+    Communicate via Slack API
+
+    Enforce human-in-the-loop approval
+
+##Slack Integration
+
+Platform: Slack API (Events API + Web API)
+
+Authentication: Bot Token (xoxb-) stored in environment variables
+
+Permissions (least privilege):
+
+    chat:write
+
+    channels:read
+
+    channels:join
+
+    im:write
+
+Workflow Requirements:
+
+    All bot messages must be sent through Python, not manually
+
+    All approval steps must be handled inside Slack
+
+    Bot should confirm all posted approvals
+
+##Data Layer
+
+Type: JSON-based mock dataset
+
+Location: /data directory
+
+Required Files:
+
+    critical_assets.json (asset keywords + impact levels)
+
+    mock_threat_dataset.json (fake CVEs, fake descriptions)
+
+Restrictions:
+
+    No scraping live intel sources
+
+    No OSINT, CVE feeds, or external ingestion
+
+    Only mock or safe publicly synthesized data
+
+Loading Mechanism: Python json.load()
+
+##Project Structure Guidelines
+
+    Keep bot logic isolated in /src
+
+    Keep mock data in /data
+
+    Keep documentation in /docs
+
+    Keep environment/setup files in /scripts
+
+    Use clear naming conventions for Python files (snake_case)
+
+    Keep business logic modular (separate files for triage logic, Slack messaging, etc.)
+
+Development Practices
+
+    Write clean, readable Python code with clear function names
+
+    Use inline comments for non-obvious logic
+
+    Apply error handling for:
+
+        Missing JSON fields
+
+        Slack API failures
+
+        Invalid environment variables
+
+    Avoid hard-coding sensitive values
+
+    Use Python requests or Slack’s Python SDK for API interactions
+
+    Keep triage logic simple, rule-based, and explainable
+
+Triage Engine Guidelines
+
+    Use rule-based scoring, NOT machine learning
+
+    Scoring factors include:
+
+        Keyword matches
+
+        Impact level from CRITICAL_ASSETS
+
+        Fake CVSS severity
+
+        Source “trust level” in mock data
+
+    Output must assign one of:
+
+        HIGH PRIORITY
+
+        MEDIUM PRIORITY
+
+        LOW PRIORITY
+
+    Only HIGH or MEDIUM should proceed to moderation
+
+Dependencies
+
+    Python packages via requirements.txt
+    Recommended:
+
+        slack_sdk
+
+        python-dotenv
+
+        requests
+
+    No external AI, ML, or training packages
+
+    No SQLite, no ORMs, no external databases
+
+Code Style
+
+    Use consistent indentation (4 spaces for Python)
+
+    Use descriptive variable names
+
+    Keep functions focused and single-responsibility
+
+    Comment complex triage logic sections
+
+    Use meaningful Git commit messages
+
+    Follow PEP8 whenever possible
+
+Environment Variables
+
+    Must be stored in a .env file and never committed:
+
+        SLACK_BOT_TOKEN
+
+        SLACK_SIGNING_SECRET
+
+        SLACK_MODERATOR_CHANNEL
+
+        SLACK_COMMUNITY_CHANNEL
+
+Cursor Commands
+
+    Use “Run Current File” for executing Python scripts in /src
+
+    Restart Cursor’s Python environment after installing or updating dependencies
+
+    Use pip install -r requirements.txt when prompted
+
+    Use “Apply Patch” when editing multi-file logic changes
+
+    Keep refactors within /src unless intentionally modifying data or docs
