@@ -1,0 +1,138 @@
+[
+  {
+    "id": "TUT-001",
+    "title": "Critical Vulnerability in Hospital Diagnostic Systems",
+    "description": "Unpatched vulnerability discovered in clinical diagnostic equipment affecting patient testing systems. The exploit allows remote code execution in laboratory information management systems used for specimen tracking and test results. Multiple hospitals reported infected systems with potential impact on diagnostic accuracy and patient care workflows.",
+    "cvss": 9,
+    "source_trust": "HIGH",
+    "date": "2025-11-20",
+    "asset_category": "clinical_diagnostics"
+  },
+  {
+    "id": "TUT-002",
+    "title": "Multi-State Outbreak Linked to Contaminated Dairy Supply",
+    "description": "Wastewater surveillance detected outbreak patterns across multi-state dairy distribution networks. Contamination traced to refrigeration and pasteurization control systems in dairy processing facilities. Affected cattle herds in multiple farms showing symptoms. Health surveillance teams monitoring livestock and milk supply chain for further spread.",
+    "cvss": 7,
+    "source_trust": "HIGH",
+    "date": "2025-11-21",
+    "asset_category": "dairy_livestock"
+  },
+  {
+    "id": "TUT-003",
+    "title": "Sequencing Equipment Firmware Vulnerability",
+    "description": "Security researchers identified vulnerabilities in genomic sequencing platforms including Illumina and nanopore devices. The flaw affects DNA and RNA analysis workflows in bioinformatics laboratories. PCR and qPCR amplification systems may be compromised, potentially impacting research integrity and diagnostic assays.",
+    "cvss": 6,
+    "source_trust": "MEDIUM",
+    "date": "2025-11-19",
+    "asset_category": "sequencing_equipment"
+  },
+  {
+    "id": "TUT-004",
+    "title": "SCADA System Exploit in Food Processing Plants",
+    "description": "No patch available for critical exploit targeting industrial control systems and SCADA platforms used in pasteurization and temperature control. Operational technology networks in agricultural facilities at risk. The vulnerability affects PLCs managing refrigeration and automation sensors in food production lines.",
+    "cvss": 8,
+    "source_trust": "HIGH",
+    "date": "2025-11-22",
+    "asset_category": "pasteurization_ics"
+  },
+  {
+    "id": "TUT-005",
+    "title": "Bioreactor Control System Authentication Bypass",
+    "description": "Authentication bypass vulnerability discovered in biomanufacturing facility control systems. Affects bioreactor monitoring, fermentation processes, and cell culture management in pharmaceutical production. Clean room environmental controls and sterile manufacturing batch systems potentially vulnerable. Quality control and GMP compliance systems may be impacted.",
+    "cvss": 7,
+    "source_trust": "HIGH",
+    "date": "2025-11-18",
+    "asset_category": "biomanufacturing_facilities"
+  },
+  {
+    "id": "TUT-006",
+    "title": "Minor Update to Laboratory Network Configuration",
+    "description": "Routine update for laboratory network switches. No significant impact expected.",
+    "cvss": 2,
+    "source_trust": "LOW",
+    "date": "2025-11-17",
+    "asset_category": "clinical_diagnostics"
+  },
+  {
+    "id": "TUT-007",
+    "title": "Multi-Country Food Supply Chain Disruption Alert",
+    "description": "Multi-country surveillance detected potential contamination in agricultural supply chains affecting grain storage and crop distribution networks. Cold chain logistics and transport systems compromised. Wastewater monitoring indicates outbreak patterns spreading across food supply infrastructure in multiple regions.",
+    "cvss": 8,
+    "source_trust": "HIGH",
+    "date": "2025-11-23",
+    "asset_category": "food_supply_chain"
+  },
+  {
+    "id": "TUT-008",
+    "title": "Zero-Day in Sole-Source Veterinary Diagnostic Platform",
+    "description": "Zero-day vulnerability identified in sole-source veterinary diagnostic systems used for animal health monitoring in livestock operations. The unpatched exploit affects poultry and cattle disease surveillance, potentially compromising herd management and feed quality control across dairy and farming facilities.",
+    "cvss": 9,
+    "source_trust": "HIGH",
+    "date": "2025-11-21",
+    "asset_category": "dairy_livestock"
+  },
+  {
+    "id": "TUT-009",
+    "title": "Thermocycler Software Patch Released",
+    "description": "Manufacturer released routine patch for thermocycler devices used in PCR workflows. The update addresses minor performance improvements in plate reader integration. No critical vulnerabilities identified.",
+    "cvss": 3,
+    "source_trust": "MEDIUM",
+    "date": "2025-11-16",
+    "asset_category": "sequencing_equipment"
+  },
+  {
+    "id": "TUT-010",
+    "title": "Hospital HVAC System Malware Detection",
+    "description": "Malware discovered in hospital HVAC and environmental control systems. The infection spread through operational technology networks affecting biosafety protocols in clinical laboratories and patient care areas. Industrial control systems managing temperature and sterile environments potentially compromised.",
+    "cvss": 7,
+    "source_trust": "HIGH",
+    "date": "2025-11-22",
+    "asset_category": "pasteurization_ics"
+  },
+  {
+    "id": "TUT-011",
+    "title": "Bioinformatics Database Access Control Issue",
+    "description": "Access control misconfiguration detected in bioinformatics databases storing genomic and RNA sequencing data. Research laboratories using DNA analysis platforms may have exposed specimen information. Impact limited to data access logging.",
+    "cvss": 4,
+    "source_trust": "MEDIUM",
+    "date": "2025-11-15",
+    "asset_category": "sequencing_equipment"
+  },
+  {
+    "id": "TUT-012",
+    "title": "Critical Ransomware Targeting Pharmaceutical Manufacturing",
+    "description": "New ransomware variant specifically designed to target pharmaceutical biomanufacturing facilities. The malware infects bioreactor control systems, fermentation monitoring, and cell culture automation. Production line shutdowns reported at multiple GMP-certified manufacturing plants. Clean room environments and sterile batch processing systems affected. No patch currently available for the exploited vulnerability.",
+    "cvss": 10,
+    "source_trust": "HIGH",
+    "date": "2025-11-23",
+    "asset_category": "biomanufacturing_facilities"
+  },
+  {
+    "id": "TUT-013",
+    "title": "Routine Maintenance on Farm Equipment Network",
+    "description": "Scheduled maintenance performed on agricultural equipment network connectivity. Brief downtime expected.",
+    "cvss": 1,
+    "source_trust": "LOW",
+    "date": "2025-11-14",
+    "asset_category": "food_supply_chain"
+  },
+  {
+    "id": "TUT-014",
+    "title": "Generic Email Server Configuration Update",
+    "description": "Standard email server configuration update for healthcare facility. Update includes spam filter improvements and routine security patches for mail transport agents. Administrative accounts will require password resets following installation. No operational impact to clinical systems anticipated.",
+    "cvss": 5,
+    "source_trust": "MEDIUM",
+    "date": "2025-11-19",
+    "asset_category": "clinical_diagnostics"
+  },
+  {
+    "id": "TUT-015",
+    "title": "Critical Authentication Flaw in DNA Sequencer",
+    "description": "Critical flaw found in authentication module.",
+    "cvss": 8,
+    "source_trust": "HIGH",
+    "date": "2025-11-22",
+    "asset_category": "sequencing_equipment"
+  }
+]
+

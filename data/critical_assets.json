@@ -1,0 +1,147 @@
+{
+  "clinical_diagnostics": {
+    "keywords": [
+      "diagnos",
+      "patient",
+      "hospital",
+      "clinic",
+      "medic",
+      "health",
+      "disease",
+      "infect",
+      "epidem",
+      "pathogen",
+      "laboratory",
+      "specimen",
+      "test result",
+      "blood",
+      "tissue"
+    ],
+    "impact": "clinical"
+  },
+  "sequencing_equipment": {
+    "keywords": [
+      "sequenc",
+      "genom",
+      "dna",
+      "rna",
+      "bioinform",
+      "illumina",
+      "nanopore",
+      "pcr",
+      "qpcr",
+      "amplif",
+      "assay",
+      "plate reader",
+      "thermocycl"
+    ],
+    "impact": "biomanufacturing"
+  },
+  "biomanufacturing_facilities": {
+    "keywords": [
+      "bioreactor",
+      "ferment",
+      "cell cultur",
+      "biosafety",
+      "manufactur",
+      "production line",
+      "sterile",
+      "clean room",
+      "batch",
+      "quality control",
+      "gmp",
+      "pharma"
+    ],
+    "impact": "biomanufacturing"
+  },
+  "pasteurization_ics": {
+    "keywords": [
+      "pasteuriz",
+      "scada",
+      "plc",
+      "industrial control",
+      "ics",
+      "ot",
+      "operational technolog",
+      "hvac",
+      "refrigerat",
+      "temperature control",
+      "automation",
+      "sensor"
+    ],
+    "impact": "agriculture"
+  },
+  "dairy_livestock": {
+    "keywords": [
+      "dairy",
+      "milk",
+      "cattle",
+      "livestock",
+      "cow",
+      "herd",
+      "farm",
+      "poultry",
+      "chicken",
+      "egg",
+      "feed",
+      "veterinar",
+      "animal health"
+    ],
+    "impact": "agriculture"
+  },
+  "food_supply_chain": {
+    "keywords": [
+      "food supply",
+      "agricultur",
+      "crop",
+      "harvest",
+      "grain",
+      "produce",
+      "distribution",
+      "cold chain",
+      "storage",
+      "transport",
+      "logistics"
+    ],
+    "impact": "agriculture"
+  },
+  "outbreak_indicators": {
+    "keywords": [
+      "outbreak",
+      "wastewater",
+      "multi-state",
+      "multi state",
+      "multi-country",
+      "multi country",
+      "cluster",
+      "spread",
+      "transmission",
+      "surveil",
+      "reporting",
+      "alert",
+      "contamin"
+    ],
+    "impact": "severity"
+  },
+  "vulnerability_severity": {
+    "keywords": [
+      "unpatch",
+      "no patch",
+      "zero day",
+      "zero-day",
+      "exploit",
+      "vulnerab",
+      "cve",
+      "critical",
+      "severe",
+      "remote code execution",
+      "rce",
+      "privilege escal",
+      "sole-source",
+      "sole source",
+      "authentication bypass"
+    ],
+    "impact": "severity"
+  }
+}
+
