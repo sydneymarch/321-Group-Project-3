@@ -6,6 +6,7 @@ Loads mock threat data, applies triage logic, and manages the Slack approval wor
 
 import json
 import os
+import time
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -281,9 +282,30 @@ class ThreatBot:
 
 
 def main():
-    """Main entry point."""
+    """Main entry point - runs continuously."""
     bot = ThreatBot()
-    bot.run()
+    
+    CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', 30))  # 30 sec default
+    
+    print("=" * 60)
+    print("THREAT BOT - CONTINUOUS MODE")
+    print(f"Checking every {CHECK_INTERVAL} seconds")
+    print("Press Ctrl+C to stop")
+    print("=" * 60)
+    
+    while True:
+        try:
+            bot.run()
+        except KeyboardInterrupt:
+            print("\nBot stopped by user.")
+            break
+        except Exception as e:
+            print(f"Error during run: {e}")
+            import traceback
+            traceback.print_exc()
+        
+        print(f"\nNext check in {CHECK_INTERVAL} seconds...\n")
+        time.sleep(CHECK_INTERVAL)
 
 
 if __name__ == '__main__':
