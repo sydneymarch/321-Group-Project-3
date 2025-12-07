@@ -127,7 +127,10 @@ class SlackThreatClient:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": ":white_check_mark: *React with ✅ to approve posting to community channel*"
+                    "text": "*Moderator Actions:*\n"
+                           ":white_check_mark: React with ✅ to approve and post as-is\n"
+                           ":x: React with ❌ and reply with edited text to post custom alert\n"
+                           ":x: React with ❌ only (no reply) to reject without posting"
                 }
             })
         
@@ -199,6 +202,87 @@ class SlackThreatClient:
             text=f"{triage_result['priority']} PRIORITY: {threat['title']}"
         )
     
+    def post_custom_community_alert(self, threat, triage_result, custom_text):
+        """
+        Post a moderator-edited alert to the community channel.
+        
+        Uses the custom text provided by the moderator instead of the original description.
+        
+        Args:
+            threat (dict): Original threat object (for metadata)
+            triage_result (dict): Triage analysis result
+            custom_text (str): Moderator's custom alert text
+            
+        Returns:
+            dict: Response containing message timestamp
+        """
+        priority = triage_result['priority']
+        priority_emoji = {
+            'HIGH': ':red_circle:',
+            'MEDIUM': ':large_orange_diamond:',
+            'LOW': ':white_circle:'
+        }
+        
+        blocks = [
+            {
+                "type": "header",
+                "text": {
+                    "type": "plain_text",
+                    "text": f"{priority_emoji.get(priority, '')} {priority} PRIORITY: {threat['id']}"
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"*{threat['title']}*"
+                }
+            },
+            {
+                "type": "section",
+                "fields": [
+                    {
+                        "type": "mrkdwn",
+                        "text": f"*CVSS Score:*\n{threat.get('cvss', 'N/A')}"
+                    },
+                    {
+                        "type": "mrkdwn",
+                        "text": f"*Source Trust:*\n{threat.get('source_trust', 'N/A')}"
+                    },
+                    {
+                        "type": "mrkdwn",
+                        "text": f"*Date:*\n{threat.get('date', 'N/A')}"
+                    },
+                    {
+                        "type": "mrkdwn",
+                        "text": f"*Asset Category:*\n{threat.get('asset_category', 'N/A')}"
+                    }
+                ]
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"*Alert:*\n{custom_text}"
+                }
+            },
+            {
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "mrkdwn",
+                        "text": f"Priority: {priority} | Edited by moderator"
+                    }
+                ]
+            }
+        ]
+        
+        return self.send_message(
+            self.community_channel,
+            blocks,
+            text=f"{priority} PRIORITY: {threat['title']}"
+        )
+    
     def get_reactions(self, channel, timestamp):
         """
         Get reactions on a specific message.
@@ -262,6 +346,48 @@ class SlackThreatClient:
         except SlackApiError as e:
             print(f"Error posting thread reply: {e.response['error']}")
             return {'ok': False, 'error': e.response['error']}
+    
+    def get_thread_replies(self, channel, thread_ts):
+        """
+        Get replies in a thread (excluding the parent message).
+        
+        Args:
+            channel (str): Channel ID
+            thread_ts (str): Thread timestamp (parent message)
+            
+        Returns:
+            list: List of reply messages (excluding parent), or empty list on error
+        """
+        try:
+            response = self.client.conversations_replies(
+                channel=channel,
+                ts=thread_ts
+            )
+            if response['ok'] and 'messages' in response:
+                # Return all messages except the first (parent)
+                return response['messages'][1:] if len(response['messages']) > 1 else []
+            return []
+        except SlackApiError as e:
+            print(f"Error getting thread replies: {e.response['error']}")
+            return []
+    
+    def check_rejection(self, channel, timestamp, reject_emoji='x'):
+        """
+        Check if a message has been rejected (has the reject emoji reaction).
+        
+        Args:
+            channel (str): Channel ID
+            timestamp (str): Message timestamp
+            reject_emoji (str): Emoji name to check for (without colons)
+            
+        Returns:
+            bool: True if message has reject reaction
+        """
+        reactions = self.get_reactions(channel, timestamp)
+        for reaction in reactions:
+            if reaction.get('name') == reject_emoji and reaction.get('count', 0) > 0:
+                return True
+        return False
     
     def send_ephemeral(self, channel, user, text):
         """

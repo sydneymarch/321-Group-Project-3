@@ -147,10 +147,15 @@ class ThreatBot:
     
     def check_approvals(self):
         """
-        Check for approvals on pending threats and post approved ones to community channel.
+        Check for approvals/rejections on pending threats.
+        
+        Handles three cases:
+        1. ✅ reaction: Post original alert to community
+        2. ❌ reaction + thread reply: Post the edited text to community
+        3. ❌ reaction only: Reject without posting
         
         Returns:
-            int: Number of threats approved and posted
+            int: Number of threats approved/edited and posted
         """
         print("\n=== Checking for Approvals ===")
         
@@ -172,34 +177,38 @@ class ThreatBot:
         
         approved_count = 0
         for threat_id, info in pending_threats.items():
-            # Check for approval reaction
+            # Check for approval reaction (✅)
             is_approved = self.slack_client.check_approval(
                 info['moderator_channel'],
                 info['moderator_ts']
             )
             
+            # Check for rejection reaction (❌)
+            is_rejected = self.slack_client.check_rejection(
+                info['moderator_channel'],
+                info['moderator_ts']
+            )
+            
+            # Get full threat data
+            threat = threats_dict.get(threat_id)
+            if not threat:
+                print(f"  {threat_id}: ✗ Threat data not found, skipping")
+                continue
+            
+            triage_result = triage_threat(threat)
+            
             if is_approved:
-                print(f"  {threat_id}: Approved! Posting to community channel")
+                # Case 1: Approved as-is
+                print(f"  {threat_id}: Approved! Posting original to community channel")
                 
-                # Get full threat data and re-triage (for formatting)
-                threat = threats_dict.get(threat_id)
-                if not threat:
-                    print(f"    ✗ Threat data not found, skipping")
-                    continue
-                
-                triage_result = triage_threat(threat)
-                
-                # Post to community channel
                 response = self.slack_client.post_to_community_channel(threat, triage_result)
                 
                 if response.get('ok'):
-                    # Update state
                     self.state['posted_threats'][threat_id]['status'] = 'approved_posted'
                     self.state['posted_threats'][threat_id]['community_ts'] = response['ts']
                     self.state['posted_threats'][threat_id]['approved_at'] = datetime.now().isoformat()
                     self.state['approved_threats'].append(threat_id)
                     
-                    # Post confirmation in moderator thread
                     self.slack_client.post_thread_reply(
                         info['moderator_channel'],
                         info['moderator_ts'],
@@ -210,13 +219,61 @@ class ThreatBot:
                     print(f"    ✓ Posted to community channel (ts: {response['ts']})")
                 else:
                     print(f"    ✗ Failed to post: {response.get('error', 'Unknown error')}")
+                    
+            elif is_rejected:
+                # Check for thread replies (edited text)
+                replies = self.slack_client.get_thread_replies(
+                    info['moderator_channel'],
+                    info['moderator_ts']
+                )
+                
+                if replies:
+                    # Case 2: Rejected with edit - use the most recent reply
+                    custom_text = replies[-1].get('text', '')
+                    print(f"  {threat_id}: Rejected with edit! Posting custom text to community channel")
+                    
+                    response = self.slack_client.post_custom_community_alert(
+                        threat, triage_result, custom_text
+                    )
+                    
+                    if response.get('ok'):
+                        self.state['posted_threats'][threat_id]['status'] = 'edited_posted'
+                        self.state['posted_threats'][threat_id]['community_ts'] = response['ts']
+                        self.state['posted_threats'][threat_id]['approved_at'] = datetime.now().isoformat()
+                        self.state['posted_threats'][threat_id]['edited'] = True
+                        self.state['approved_threats'].append(threat_id)
+                        
+                        self.slack_client.post_thread_reply(
+                            info['moderator_channel'],
+                            info['moderator_ts'],
+                            f"✓ Posted EDITED alert to community channel at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                        )
+                        
+                        approved_count += 1
+                        print(f"    ✓ Posted edited alert to community channel (ts: {response['ts']})")
+                    else:
+                        print(f"    ✗ Failed to post: {response.get('error', 'Unknown error')}")
+                else:
+                    # Case 3: Rejected without edit - mark as rejected, don't post
+                    print(f"  {threat_id}: Rejected (no edit provided)")
+                    self.state['posted_threats'][threat_id]['status'] = 'rejected'
+                    self.state['posted_threats'][threat_id]['rejected_at'] = datetime.now().isoformat()
+                    
+                    self.slack_client.post_thread_reply(
+                        info['moderator_channel'],
+                        info['moderator_ts'],
+                        f"✗ Rejected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - not posted to community"
+                    )
+                    print(f"    ✗ Marked as rejected")
             else:
                 print(f"  {threat_id}: Still pending approval")
         
         if approved_count > 0:
             self.save_state()
-            print(f"\nApproved and posted {approved_count} threats to community channel")
+            print(f"\nApproved/edited and posted {approved_count} threats to community channel")
         else:
+            # Still save state if any rejections occurred
+            self.save_state()
             print("\nNo new approvals")
         
         return approved_count
