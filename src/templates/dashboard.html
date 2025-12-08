@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Intelligence Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Threat Intelligence Dashboard</h1>
+            <p class="subtitle">Biosecurity Threat Monitoring & Analytics</p>
+        </header>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <h2>Overview Statistics</h2>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Threats</div>
+                    <div class="stat-value" id="totalThreats">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Approval</div>
+                    <div class="stat-value" id="pendingCount">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Approved</div>
+                    <div class="stat-value" id="approvedCount">-</div>
+                </div>
+                <div class="stat-card high-priority">
+                    <div class="stat-label">High Priority</div>
+                    <div class="stat-value" id="highCount">-</div>
+                </div>
+                <div class="stat-card medium-priority">
+                    <div class="stat-label">Medium Priority</div>
+                    <div class="stat-value" id="mediumCount">-</div>
+                </div>
+                <div class="stat-card low-priority">
+                    <div class="stat-label">Low Priority</div>
+                    <div class="stat-value" id="lowCount">-</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="priorityChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <h2>Threat List</h2>
+            <div class="filters">
+                <select id="priorityFilter" class="filter-select">
+                    <option value="all">All Priorities</option>
+                    <option value="HIGH">High Priority</option>
+                    <option value="MEDIUM">Medium Priority</option>
+                    <option value="LOW">Low Priority</option>
+                </select>
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All Statuses</option>
+                    <option value="not_posted">Not Posted</option>
+                    <option value="pending">Pending Approval</option>
+                    <option value="approved">Approved</option>
+                </select>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search threats...">
+                <button onclick="refreshData()" class="refresh-btn">🔄 Refresh</button>
+            </div>
+        </section>
+
+        <!-- Threats Table -->
+        <section class="threats-section">
+            <div class="table-container">
+                <table class="threats-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>CVSS</th>
+                            <th>Buckets Hit</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="threatsTableBody">
+                        <tr>
+                            <td colspan="7" class="loading">Loading threats...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Threat Detail Modal -->
+        <div id="threatModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div id="modalBody">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
+
