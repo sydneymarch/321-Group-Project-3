@@ -46,12 +46,12 @@
   },
   {
     "id": "TUT-006",
-    "title": "Minor Update to Laboratory Network Configuration",
-    "description": "Routine update for laboratory network switches. No significant impact expected.",
-    "cvss": 2,
-    "source_trust": "LOW",
+    "title": "Firmware Flaw in Genomic Analysis Workstations",
+    "description": "A firmware flaw has been identified in genomic analysis workstations used for DNA and RNA sequencing workflows. The vendor has released a security fix addressing the authentication weakness. Lab teams should apply the available update to sequencing platforms during scheduled maintenance. The flaw could allow unauthorized access to assay results if left unaddressed.",
+    "cvss": 6,
+    "source_trust": "MEDIUM",
     "date": "2025-11-17",
-    "asset_category": "clinical_diagnostics"
+    "asset_category": "sequencing_equipment"
   },
   {
     "id": "TUT-007",
@@ -109,19 +109,19 @@
   },
   {
     "id": "TUT-013",
-    "title": "Routine Maintenance on Farm Equipment Network",
-    "description": "Scheduled maintenance performed on agricultural equipment network connectivity. Brief downtime expected.",
-    "cvss": 1,
-    "source_trust": "LOW",
+    "title": "Authentication Weakness in Dairy Monitoring Systems",
+    "description": "A security weakness was discovered in dairy herd monitoring software used for cattle tracking and milk quality checks. The vendor has issued a fix for the authentication flaw. Operators should update their livestock management systems to address the weakness. The issue affects herd health tracking but feed management remains unaffected.",
+    "cvss": 6,
+    "source_trust": "MEDIUM",
     "date": "2025-11-14",
-    "asset_category": "food_supply_chain"
+    "asset_category": "dairy_livestock"
   },
   {
     "id": "TUT-014",
-    "title": "Generic Email Server Configuration Update",
-    "description": "Standard email server configuration update for healthcare facility. Update includes spam filter improvements and routine security patches for mail transport agents. Administrative accounts will require password resets following installation. No operational impact to clinical systems anticipated.",
-    "cvss": 5,
-    "source_trust": "MEDIUM",
+    "title": "Weekly Team Meeting Reminder",
+    "description": "This is a reminder about the upcoming weekly team meeting scheduled for Friday afternoon. The agenda will cover general business items and project status reviews. All team members are encouraged to join and share any relevant updates with the group. Please review the shared documents before the session begins. The main conference room has been reserved for this purpose.",
+    "cvss": 2,
+    "source_trust": "LOW",
     "date": "2025-11-19",
     "asset_category": "clinical_diagnostics"
   },

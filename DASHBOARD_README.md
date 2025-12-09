@@ -14,7 +14,7 @@ A web-based dashboard to visualize and monitor biosecurity threats processed by 
 
 1. Install Flask (if not already installed):
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Running the Dashboard
@@ -27,7 +27,7 @@ cd 321-Group-Project-3
 2. Run the dashboard:
 ```bash
 cd src
-python dashboard.py
+python3 dashboard.py
 ```
 
 3. Open your web browser and go to:
